@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(sub_vision)
+project(sub_vision_interfaces)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,9 +17,16 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+
+# Generate message and service files
+rosidl_generate_interfaces(${PROJECT_NAME}
+    "msg/Task.msg"
+    "srv/Vision.srv"
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

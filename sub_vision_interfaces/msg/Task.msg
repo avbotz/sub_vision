@@ -1,0 +1,11 @@
+int8 NONE=0
+int8 GATE=1
+int8 GATE_ML=2
+int8 TARGET=3
+int8 TARGET_ML=4
+int8 SECOND_TARGET_ML=5
+int8 BINS=6
+int8 BINS_ML=7
+int8 OCTAGON=8
+
+int8 value
