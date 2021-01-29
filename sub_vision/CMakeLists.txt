@@ -99,4 +99,6 @@ endforeach()
 #     DESTINATION share/${PROJECT_NAME}/
 # )
 
+ament_export_include_directories(include)
+
 ament_package()
