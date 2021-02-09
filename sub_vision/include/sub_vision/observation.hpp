@@ -68,7 +68,6 @@ struct Observation
 		}
 	}
 
-
 	std::string text()
 	{
 		std::ostringstream os;

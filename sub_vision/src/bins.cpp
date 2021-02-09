@@ -118,11 +118,10 @@ Observation VisionService::findBinsML(cv::Mat img)
 	auto boxes = out_boxes->get_data<float>();
 	auto scores = out_scores->get_data<float>();
 	auto labels = out_labels->get_data<int>();
-	// Visualize detected bounding boxes.
 
+	// Visualize detected bounding boxes.
 	for (int i = 0; i < scores.size(); i++)
 	{
-
 		int class_id = labels[i];
 		float score = scores[i];
 		std::vector<float> bbox = { boxes[i*4], boxes[i*4+1],

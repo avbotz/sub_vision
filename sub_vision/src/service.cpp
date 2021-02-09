@@ -27,7 +27,7 @@ void VisionService::frontCaptureCallback(const sensor_msgs::msg::Image::ConstSha
 		if (LOG_FRONT && !FAST_LOG)
 			log(this->front, 'f');
 		if (VISION_SIM && SIM_FILTER_FRONT)
-			underwaterEnhance(this->front, 0);
+			underwaterEnhance(this->front);
 	}
 	catch (cv_bridge::Exception &e)
 	{
@@ -45,7 +45,7 @@ void VisionService::downCaptureCallback(const sensor_msgs::msg::Image::ConstShar
 		if (LOG_DOWN && !FAST_LOG)
 			log(this->down, 'd');
 		if (VISION_SIM && SIM_FILTER_DOWN)
-			underwaterEnhance(this->down, 1);
+			underwaterEnhance(this->down);
 	}
 	catch (cv_bridge::Exception &e)
 	{

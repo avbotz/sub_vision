@@ -143,13 +143,9 @@ cv::Mat butterworth(const cv::Mat &img, int d0, int n, int high, int low)
 	}
 	return single;
 }
-void underwaterEnhance(cv::Mat &mat, int channel){
 
-	if (channel == FRONT){
-		resize(mat,mat,Size(FIMG_DIM_RES[1],FIMG_DIM_RES[0]));
-	}else{
-		resize(mat,mat, Size(DIMG_DIM_RES[1],DIMG_DIM_RES[0]));
-	}
+void underwaterEnhance(cv::Mat &mat)
+{
 	double discard_ratio = 0.05;
 	int hists[3][256];
 	memset(hists, 0, 3 * 256 * sizeof(int));

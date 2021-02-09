@@ -93,111 +93,6 @@ Observation VisionService::findTarget(const cv::Mat &input)
 	return Observation(0, 0, 0, 0);
 }
 
-/* Original Porpoise Code
-Observation VisionService::findTargetML(cv::Mat img)
-{
-	log(img, 'f');
-	auto outNames1 = new Tensor(model, "num_detections");
-	auto outNames2 = new Tensor(model, "detection_scores");
-	auto outNames3 = new Tensor(model, "detection_boxes");
-	auto outNames4 = new Tensor(model, "detection_classes");
-	auto inpName = new Tensor(model, "image_tensor");
-
-	int rows = img.rows;
-	int cols = img.cols;
-
-	cv::Mat inp;
-	cv::Mat temp;
-	img.copyTo(temp);
-	cv::cvtColor(img, inp, CV_BGR2RGB);
-
-	// Put image in tensor.
-	std::vector<uint8_t> img_data;
-	img_data.assign(inp.data, inp.data + inp.total()*inp.channels());
-	inpName->set_data(img_data, { 1, FIMG_DIM[0], FIMG_DIM[1], 3 });
-
-	model.run(inpName, { outNames1, outNames2, outNames3, outNames4 });
-
-	// Visualize detected bounding boxes.
-	int num_detections = (int)outNames1->get_data<float>()[0];
-	for (int i = 0; i < num_detections; i++)
-	{
-		int class_id = (int)outNames4->get_data<float>()[i];
-		float score = outNames2->get_data<float>()[i];
-		auto bbox_data = outNames3->get_data<float>();
-		std::vector<float> bbox = { bbox_data[i*4], bbox_data[i*4+1],
-			bbox_data[i*4+2], bbox_data[i*4+3] };
-		if (score > 0.3)
-		{
-			float x = bbox[1]*cols;
-			float y = bbox[0]*rows;
-			float right = bbox[3]*cols;
-			float bottom = bbox[2]*rows;
-
-			cv::rectangle(temp, {(int)x, (int)y}, {(int)right, (int)bottom},
-					{255, 0, 255}, 10);
-			log(temp, 'e');
-			if (class_id != 4 || score < 0.5)
-				return Observation(score, (y+bottom)/2, (x+right)/2, 0);
-		}
-	}
-
-	return Observation(0, 0, 0, 0);
-}
-
-Observation VisionService::findSecondTargetML(cv::Mat img)
-{
-	log(img, 'f');
-	auto outNames1 = new Tensor(model, "num_detections");
-	auto outNames2 = new Tensor(model, "detection_scores");
-	auto outNames3 = new Tensor(model, "detection_boxes");
-	auto outNames4 = new Tensor(model, "detection_classes");
-	auto inpName = new Tensor(model, "image_tensor");
-
-	int rows = img.rows;
-	int cols = img.cols;
-
-	cv::Mat inp;
-	cv::Mat temp;
-	img.copyTo(temp);
-	cv::cvtColor(img, inp, CV_BGR2RGB);
-
-	// Put image in tensor.
-	std::vector<uint8_t> img_data;
-	img_data.assign(inp.data, inp.data + inp.total()*inp.channels());
-	inpName->set_data(img_data, { 1, FIMG_DIM[0], FIMG_DIM[1], 3 });
-
-	model.run(inpName, { outNames1, outNames2, outNames3, outNames4 });
-
-	// Visualize detected bounding boxes.
-	int num_detections = (int)outNames1->get_data<float>()[0];
-	for (int i = 0; i < num_detections; i++)
-	{
-		int class_id = (int)outNames4->get_data<float>()[i];
-		float score = outNames2->get_data<float>()[i];
-		auto bbox_data = outNames3->get_data<float>();
-		std::vector<float> bbox = { bbox_data[i*4], bbox_data[i*4+1],
-			bbox_data[i*4+2], bbox_data[i*4+3] };
-		if (score > 0.5)
-		{
-			float x = bbox[1]*cols;
-			float y = bbox[0]*rows;
-			float right = bbox[3]*cols;
-			float bottom = bbox[2]*rows;
-
-			cv::rectangle(temp, {(int)x, (int)y}, {(int)right, (int)bottom},
-					{255, 0, 255}, 10);
-			log(temp, 'e');
-			if (class_id == 4)
-				return Observation(score, (y+bottom)/2, (x+right)/2, 0);
-		}
-	}
-
-	return Observation(0, 0, 0, 0);
-}
-*/
-
-// Sim code with efficientdet
 Observation VisionService::findTargetML(cv::Mat img)
 {
 	RCLCPP_INFO(rclcpp::get_logger("vision_target"), "Starting machine learning detection for TARGET.");
@@ -225,11 +120,10 @@ Observation VisionService::findTargetML(cv::Mat img)
 	auto boxes = out_boxes->get_data<float>();
 	auto scores = out_scores->get_data<float>();
 	auto labels = out_labels->get_data<int>();
-	// Visualize detected bounding boxes.
 
+	// Visualize detected bounding boxes.
 	for (int i = 0; i < scores.size(); i++)
 	{
-
 		int class_id = labels[i];
 		float score = scores[i];
 		std::vector<float> bbox = { boxes[i*4], boxes[i*4+1],
@@ -240,7 +134,8 @@ Observation VisionService::findTargetML(cv::Mat img)
 			float y = bbox[1];
 			float right = bbox[2];
 			float bottom = bbox[3];
-			if (class_id != 2){
+			if (class_id != 2)
+			{
 				RCLCPP_INFO(rclcpp::get_logger("vision_target"), "Target Found");
 				cv::rectangle(temp, {(int)x, (int)y}, {(int)right, (int)bottom},
 						{255, 0, 255}, 5);
@@ -249,9 +144,10 @@ Observation VisionService::findTargetML(cv::Mat img)
 				// Calculate distance based on camera parameters
 				float det_height = std::fabs(bottom - y);
 				float det_width = std::fabs(right-x);
-				float dist = calcDistance(8, 900, FIMG_DIM_RES[0], det_height, 8.8);
+				float dist = calcDistance(FRONT_FOCAL_LENGTH, GATE_HEIGHT_MM, 
+					FIMG_DIM_RES[0], det_height, FRONT_SENSOR_SIZE);
 
-				return Observation(score, (y+bottom)/2, (x+right)/2, dist, det_height/det_width);
+				return Observation(score, (y+bottom)/2, (x+right)/2, dist);
 			}
 		}
 		else break;
@@ -288,11 +184,10 @@ Observation VisionService::findSecondTargetML(cv::Mat img)
 	auto boxes = out_boxes->get_data<float>();
 	auto scores = out_scores->get_data<float>();
 	auto labels = out_labels->get_data<int>();
-	// Visualize detected bounding boxes.
 
+	// Visualize detected bounding boxes.
 	for (int i = 0; i < scores.size(); i++)
 	{
-
 		int class_id = labels[i];
 		float score = scores[i];
 		std::vector<float> bbox = { boxes[i*4], boxes[i*4+1],
@@ -313,9 +208,10 @@ Observation VisionService::findSecondTargetML(cv::Mat img)
 				// Calculate distance based on camera parameters
 				float det_height = std::fabs(bottom-y);
 				float det_width = std::fabs(right-x);
-				float dist = calcDistance(8, 900, FIMG_DIM_RES[0], det_height, 8.8);
+				float dist = calcDistance(FRONT_FOCAL_LENGTH, TARGET_HEIGHT_MM, 
+					FIMG_DIM_RES[0], det_height, FRONT_SENSOR_SIZE);
 
-				return Observation(score, (y+bottom)/2, (x+right)/2, dist, det_height/det_width);
+				return Observation(score, (y+bottom)/2, (x+right)/2, dist);
 			}
 		}
 		else break;
