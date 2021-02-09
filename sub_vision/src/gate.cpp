@@ -113,11 +113,10 @@ Observation VisionService::findGateML(cv::Mat img)
 	auto boxes = out_boxes->get_data<float>();
 	auto scores = out_scores->get_data<float>();
 	auto labels = out_labels->get_data<int>();
-	// Visualize detected bounding boxes.
 
+	// Visualize detected bounding boxes.
 	for (int i = 0; i < scores.size(); i++)
 	{
-
 		int class_id = labels[i];
 		float score = scores[i];
 		std::vector<float> bbox = { boxes[i*4], boxes[i*4+1],
@@ -154,9 +153,10 @@ Observation VisionService::findGateML(cv::Mat img)
 				// Calculate distance based on camera parameters
 				float det_height = std::fabs(bottom-y);
 				float det_width = std::fabs(right-x);
-				float dist = calcDistance(8, 1524, FIMG_DIM_RES[0], det_height, 8.8);
+				float dist = calcDistance(FRONT_FOCAL_LENGTH, GATE_HEIGHT_MM, 
+					FIMG_DIM_RES[0], det_height, FRONT_SENSOR_SIZE);
 
-				return Observation(score, target_y, target_x, dist, det_height/det_width);
+				return Observation(score, target_y, target_x, dist);
 			}
 		}
 		else break;

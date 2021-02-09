@@ -33,6 +33,8 @@ const bool VISION_SIM = false;
 
 const CameraMode CAMERA_MODE = CameraMode::LIVE;
 const int FRONT_EXPOSURE = 7500;
+const float FRONT_FOCAL_LENGTH = 8.;
+const float FRONT_SENSOR_SIZE = 8.8;
 const bool LOG_FRONT = false;
 const bool LOG_DOWN = false;
 const bool FAST_LOG = false;
@@ -53,7 +55,10 @@ const int FRONT = 0;
 const int DOWN = 1;
 const int maxdim = 512;
 const float FIMG_DIM[2] = { 3648, 5472 };
-const float FIMG_DIM_RES[2] = {(int)((3648*maxdim)/5472),maxdim};
+const float FIMG_DIM_RES[2] = {(int)((3648*maxdim)/5472), maxdim};
 const float DIMG_DIM[2] = { 964, 1288 };
-const float DIMG_DIM_RES[2] = {(int)((964*maxdim)/1288),maxdim};
+const float DIMG_DIM_RES[2] = {(int)((964*maxdim)/1288), maxdim};
+const float GATE_HEIGHT_MM = 1524.;
+const float TARGET_HEIGHT_MM = 900.;
+
 #endif

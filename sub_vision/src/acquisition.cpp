@@ -166,14 +166,11 @@ void runCamera(CameraPtr camera, std::string channel)
 				if (LOG_FRONT && FAST_LOG && channel == "front_camera")
 					log(out, 'f');
 
-				//Correct the image before publishing
-				if (FILTER_ON == true){
-					if (channel == "front_camera"){
-						underwaterEnhance(out, 0);
-					}else{
-						underwaterEnhance(out, 1);
-					}
-				}
+				// Correct the image before publishing
+				resize(out, maxdim);
+				if (FILTER_ON)
+					underwaterEnhance(out);
+					
 				// Publish image.
                 auto msg = cv_bridge::CvImage(std_msgs::msg::Header(),
 					"bgr8", out).toImageMsg();

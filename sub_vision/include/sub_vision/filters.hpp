@@ -13,7 +13,7 @@
 
 cv::Mat equalizeHist(bool, bool, bool, const cv::Mat &);
 cv::Mat illumination(const cv::Mat &);
-void underwaterEnhance(cv::Mat &, int);
+void underwaterEnhance(cv::Mat &);
 cv::Mat homomorphic(const cv::Mat &);
 cv::Mat butterworth(const cv::Mat &, int, int, int, int);
 void fft(const cv::Mat &, cv::Mat &);
