@@ -143,7 +143,6 @@ Observation VisionService::findTargetML(cv::Mat img)
 
 				// Calculate distance based on camera parameters
 				float det_height = std::fabs(bottom - y);
-				float det_width = std::fabs(right-x);
 				float dist = calcDistance(FRONT_FOCAL_LENGTH, GATE_HEIGHT_MM, 
 					FIMG_DIM_RES[0], det_height, FRONT_SENSOR_SIZE);
 
@@ -207,7 +206,6 @@ Observation VisionService::findSecondTargetML(cv::Mat img)
 
 				// Calculate distance based on camera parameters
 				float det_height = std::fabs(bottom-y);
-				float det_width = std::fabs(right-x);
 				float dist = calcDistance(FRONT_FOCAL_LENGTH, TARGET_HEIGHT_MM, 
 					FIMG_DIM_RES[0], det_height, FRONT_SENSOR_SIZE);
 

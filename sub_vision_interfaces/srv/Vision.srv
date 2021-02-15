@@ -7,4 +7,3 @@ float32 c
 float32 dist
 float32 hangle
 float32 vangle
-float32 hw_ratio
