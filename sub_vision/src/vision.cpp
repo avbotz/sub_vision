@@ -18,11 +18,18 @@
 using namespace std::placeholders;
 using namespace sub_vision_interfaces::srv;
 
+
+bool VISION_SIM;
+
 int main(int argc, char** argv)
 {
 	srand((unsigned) time(0));
     rclcpp::init(argc, argv);
 	auto node = rclcpp::Node::make_shared("vision_node");
+
+	// Check if user has said if sim is on, default is false
+	node->declare_parameter<bool>("SIM", false);
+	node->get_parameter("SIM", VISION_SIM);
 
 	// Set no task in the beginning so the first model is loaded.
 	VisionService service;

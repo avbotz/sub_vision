@@ -29,7 +29,7 @@ enum Task
     OCTAGON
 };
 
-const bool VISION_SIM = false;
+extern bool VISION_SIM;
 
 const CameraMode CAMERA_MODE = CameraMode::LIVE;
 const int FRONT_EXPOSURE = 7500;
