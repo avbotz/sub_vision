@@ -62,26 +62,24 @@ bool VisionService::detectCallback(
 	if (req->task != this->task)
 	{
 		// Get filepath to the model directory
-		std::string model_dir = ament_index_cpp::get_package_share_directory("vision") + "/models";
-
 		if (req->task == Task::GATE_ML)
 		{
             std::cout << "Starting to setup gate model." << std::endl;
-			this->model.setup(model_dir + "/gpu_gate.pb");
+			this->model.setup("models/gpu_gate.pb");
 			this->task = Task::GATE_ML;
             std::cout << "Done setting up gate model." << std::endl;
 		}
 		else if (req->task == Task::BINS_ML)
 		{
             std::cout << "Starting to setup bins model." << std::endl;
-			this->model.setup(model_dir + "/pool_bins.pb");
+			this->model.setup("models/pool_bins.pb");
 			this->task = Task::BINS_ML;
             std::cout << "Done settings up bins model." << std::endl;
 		}
 		else if (req->task == Task::TARGET_ML)
 		{
             std::cout << "Starting to setup target model." << std::endl;
-			this->model.setup(model_dir + "/gpu_target.pb");
+			this->model.setup("models/gpu_target.pb");
 			this->task = Task::TARGET_ML;
             std::cout << "Done settings up target model." << std::endl;
 		}
