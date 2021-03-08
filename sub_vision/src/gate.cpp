@@ -88,7 +88,7 @@ Observation VisionService::findGate(const cv::Mat &img)
 
 Observation VisionService::findGateML(cv::Mat img)
 {
-    std::cout << "Starting machine learning detection for GATE." << std::endl;
+    std::cout << "Starting machine learning detection for GATE_ML." << std::endl;
 
 	log(img, 'f');
 
@@ -105,10 +105,10 @@ Observation VisionService::findGateML(cv::Mat img)
 	auto out_scores = new Tensor(model, "filtered_detections/map/TensorArrayStack_1/TensorArrayGatherV3");
 	auto out_labels = new Tensor(model, "filtered_detections/map/TensorArrayStack_2/TensorArrayGatherV3");
 
-	// Put image in tensor.
+	// Put image in tensor and run model.
 	inpName->set_data(img_data, { 1, maxdim, maxdim, 3 });
-
 	model.run(inpName, { out_boxes, out_scores, out_labels });
+	
 	// Store output in variables so don't have to keep calling get_data()
 	auto boxes = out_boxes->get_data<float>();
 	auto scores = out_scores->get_data<float>();
