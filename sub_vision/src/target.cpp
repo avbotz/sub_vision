@@ -95,7 +95,7 @@ Observation VisionService::findTarget(const cv::Mat &input)
 
 Observation VisionService::findTargetML(cv::Mat img)
 {
-	RCLCPP_INFO(rclcpp::get_logger("vision_target"), "Starting machine learning detection for TARGET.");
+	std::cout << "Starting machine learning detection for TARGET_ML." << std::endl;
 
 	log(img, 'f');
 
@@ -112,10 +112,10 @@ Observation VisionService::findTargetML(cv::Mat img)
 	auto out_scores = new Tensor(model, "filtered_detections/map/TensorArrayStack_1/TensorArrayGatherV3");
 	auto out_labels = new Tensor(model, "filtered_detections/map/TensorArrayStack_2/TensorArrayGatherV3");
 
-	// Put image in tensor.
+	// Put image in tensor and run model.
 	inpName->set_data(img_data, { 1, maxdim, maxdim, 3 });
-
 	model.run(inpName, { out_boxes, out_scores, out_labels });
+
 	// Store output in variables so don't have to keep calling get_data()
 	auto boxes = out_boxes->get_data<float>();
 	auto scores = out_scores->get_data<float>();
@@ -136,7 +136,7 @@ Observation VisionService::findTargetML(cv::Mat img)
 			float bottom = bbox[3];
 			if (class_id != 2)
 			{
-				RCLCPP_INFO(rclcpp::get_logger("vision_target"), "Target Found");
+				std::cout << "Target Found" << std::endl;
 				cv::rectangle(temp, {(int)x, (int)y}, {(int)right, (int)bottom},
 						{255, 0, 255}, 5);
 				log(temp, 'e');
@@ -157,8 +157,7 @@ Observation VisionService::findTargetML(cv::Mat img)
 
 Observation VisionService::findSecondTargetML(cv::Mat img)
 {
-	RCLCPP_INFO(rclcpp::get_logger("vision_target"),
-            "Starting machine learning detection for SECOND TARGET.");
+	std::cout << "Starting machine learning detection for SECOND_TARGET_ML." << std::endl;
 
 	log(img, 'f');
 
@@ -177,8 +176,8 @@ Observation VisionService::findSecondTargetML(cv::Mat img)
 
 	// Put image in tensor.
 	inpName->set_data(img_data, { 1, maxdim, maxdim, 3 });
-
 	model.run(inpName, { out_boxes, out_scores, out_labels });
+	
 	// Store output in variables so don't have to keep calling get_data()
 	auto boxes = out_boxes->get_data<float>();
 	auto scores = out_scores->get_data<float>();
@@ -198,8 +197,7 @@ Observation VisionService::findSecondTargetML(cv::Mat img)
 			float right = bbox[2];
 			float bottom = bbox[3];
 			if (class_id == 2){
-	            RCLCPP_INFO(rclcpp::get_logger("vision_target"),
-                        "Second target Found");
+	            std::cout << "Second target found" << std::endl;
 				cv::rectangle(temp, {(int)x, (int)y}, {(int)right, (int)bottom},
 						{255, 0, 255}, 5);
 				log(temp, 'e');

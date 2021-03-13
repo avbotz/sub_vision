@@ -86,60 +86,66 @@ bool VisionService::detectCallback(
 	}
 
 	// Get new observation from vision functions.
-    std::cout << "Received detection request for " << req->task << std::endl;;
 	if (req->task == Task::GATE)
 	{
+		std::cout << "Received detection request for GATE" << std::endl;
 		Observation obs = this->findGate(this->front);
 		obs.calcAngles(FRONT);
-        std::cout << "Sending GATE observation @ " << obs.text().c_str() << std::endl;
+		std::cout << "Sending GATE observation @ " << obs.text().c_str() << std::endl;
 		setResponse(obs, res);
 		return true;
 	}
 	else if (req->task == Task::GATE_ML)
 	{
+		std::cout << "Received detection request for GATE_ML" << std::endl;
 		Observation obs = this->findGateML(this->front);
 		obs.calcAngles(FRONT);
-        std::cout << "Sending GATE_ML observation @ " << obs.text().c_str() << std::endl;
+		std::cout << "Sending GATE_ML observation @ " << obs.text().c_str() << std::endl;
 		setResponse(obs, res);
 		return true;
 	}
 	else if (req->task == Task::TARGET)
 	{
+		std::cout << "Received detection request for TARGET" << std::endl;
 		Observation obs = this->findTarget(this->front);
 		obs.calcAngles(FRONT);
-        std::cout << "Sending TARGET observation @ " << obs.text().c_str() << std::endl;
+		std::cout << "Sending TARGET observation @ " << obs.text().c_str() << std::endl;
 		setResponse(obs, res);
 		return true;
 	}
 	else if (req->task == Task::TARGET_ML)
 	{
+		std::cout << "Received detection request for TARGET_ML" << std::endl;
 		Observation obs = this->findTargetML(this->front);
 		obs.calcAngles(FRONT);
-        std::cout << "Sending TARGET_ML observation @ " << obs.text().c_str() << std::endl;
+		std::cout << "Sending TARGET_ML observation @ " << obs.text().c_str() << std::endl;
 		setResponse(obs, res);
 		return true;
 	}
 	else if (req->task == Task::SECOND_TARGET_ML)
 	{
+		std::cout << "Received detection request for SECOND_TARGET_ML" << std::endl;
 		Observation obs = this->findSecondTargetML(this->front);
 		obs.calcAngles(FRONT);
-        std::cout << "Sending SECOND_TARGET_ML observation @ " << obs.text().c_str() << std::endl;
+		std::cout << "Sending SECOND_TARGET_ML observation @ " << obs.text().c_str() << std::endl;
 		setResponse(obs, res);
 		return true;
 	}
 	else if (req->task == Task::BINS)
 	{
+		std::cout << "Received detection request for BINS" << std::endl;
 		Observation obs = this->findBins(this->down);
 		obs.calcAngles(DOWN);
-        std::cout << "Sending BINS observation @ " << obs.text().c_str() << std::endl;
+		std::cout << "Sending BINS observation @ " << obs.text().c_str() << std::endl;
 		setResponse(obs, res);
 		return true;
 	}
 	else if (req->task == Task::BINS_ML)
 	{
+		std::cout << "Received detection request for BINS_ML" << std::endl;
 		Observation obs = this->findBinsML(this->down);
 		obs.calcAngles(DOWN);
-        std::cout << ("Sending BINS_ML observation @ %s", obs.text().c_str());
+		std::cout << "Sending BINS_ML observation @ " << obs.text().c_str() << std::endl;
 		setResponse(obs, res);
 		return true;
 	}
