@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(sub_vision)
+project(sub_acquisition)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -48,26 +48,19 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS}
     ${SPINNAKER_INCLUDE_DIR})
 link_directories(${SPINNAKER_LIB_DIR})
 
-add_executable(vision_node
-    src/vision.cpp
-    src/service.cpp
-    src/filters.cpp
+add_executable(acquisition_node
+    src/acquisition.cpp
     src/log.cpp
-    src/gate.cpp
-    src/bins.cpp
-    src/model.cpp
-    src/tensor.cpp
-    src/target.cpp
+    src/filters.cpp
 )
 
-
-target_include_directories(vision_node
+target_include_directories(acquisition_node
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 
-ament_target_dependencies(vision_node
+ament_target_dependencies(acquisition_node
     "rclcpp"
     "sub_vision_interfaces"
     "cv_bridge"
@@ -75,14 +68,14 @@ ament_target_dependencies(vision_node
     "geometry_msgs"
 )
 
-target_link_libraries(vision_node
+target_link_libraries(acquisition_node
     ${OpenCV_LIBARIES}
     Spinnaker
     -ltensorflow
 )
 
 install(TARGETS
-    vision_node
+    acquisition_node
     DESTINATION lib/${PROJECT_NAME}
 )
 

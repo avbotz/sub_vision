@@ -11,8 +11,7 @@
  *  @author Phoebe Tang
  */
 #include <rclcpp/rclcpp.hpp>
-#include "sub_vision/filters.hpp"
-#include "sub_vision/service.hpp"
+#include "sub_acquisition/filters.hpp"
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
 #include <opencv2/core/core.hpp>
