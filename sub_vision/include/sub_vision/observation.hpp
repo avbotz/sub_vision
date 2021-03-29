@@ -73,7 +73,7 @@ struct Observation
 		std::ostringstream os;
 		os.precision(2);
 		os << std::fixed;
-		os << "(" << hangle << " " << vangle << ", " << r << " " << c << ", " <<
+		os << "(" << hangle << ", " << vangle << ", " << r << ", " << c << ", " <<
 			dist << ", " << prob << ")";
 		return os.str();
 	}
