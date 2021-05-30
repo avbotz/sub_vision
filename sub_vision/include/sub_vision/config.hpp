@@ -11,11 +11,6 @@
  * TODO Rewrite config using parameters.
  */
 
-/*
- * Deprecated. Use mock_camera_node instead.
- */
-enum class CameraMode { MOCK, LIVE };
-
 enum Task
 {
     NONE,
@@ -31,7 +26,6 @@ enum Task
 
 extern bool VISION_SIM;
 
-const CameraMode CAMERA_MODE = CameraMode::LIVE;
 const int FRONT_EXPOSURE = 7500;
 const float FRONT_FOCAL_LENGTH = 8.;
 const float FRONT_SENSOR_SIZE = 8.8;
