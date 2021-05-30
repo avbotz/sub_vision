@@ -67,24 +67,6 @@ int main(int argc, char** argv)
 	// Create directory to log images.
 	init();
 
-	while (rclcpp::ok())
-	{
-		switch (CAMERA_MODE)
-		{
-			case CameraMode::MOCK:
-				service.front = cv::imread("mock.png", 1);
-				service.down = cv::imread("mock.png", 1);
-				break;
-			case CameraMode::LIVE:
-
-				// Updates front and down camera.
-				rclcpp::spin_some(node);
-
-				// Read down camera without using ROS.
-				// Deprecated with Spinnaker.
-				// if (isdown) service.down = down.capture(false);
-
-				break;
-		}
-	}
+	// Actively look for requests and return responses to those nodes (nonstop loop)
+	rclcpp::spin(node);
 }
