@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 {
 	srand((unsigned) time(0));
     rclcpp::init(argc, argv);
-	auto node = rclcpp::Node::make_shared("vision_node");
+	auto node = rclcpp::Node::make_shared("vision");
 
 	// Check if user has said if sim is on, default is false
 	node->declare_parameter<bool>("SIM", false);

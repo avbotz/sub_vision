@@ -48,7 +48,7 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS}
     ${SPINNAKER_INCLUDE_DIR})
 link_directories(${SPINNAKER_LIB_DIR})
 
-add_executable(vision_node
+add_executable(vision
     src/vision.cpp
     src/service.cpp
     src/filters.cpp
@@ -60,13 +60,13 @@ add_executable(vision_node
     src/target.cpp
 )
 
-add_executable(acquisition_node
+add_executable(acquisition
     src/acquisition.cpp
     src/log.cpp
     src/filters.cpp
 )
 
-foreach(node IN ITEMS vision_node acquisition_node)
+foreach(node IN ITEMS vision acquisition)
     target_include_directories(${node}
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

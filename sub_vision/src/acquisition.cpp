@@ -32,7 +32,7 @@ void setupContinuousAcquisition(CameraPtr camera)
 		CEnumerationPtr acq_mode = nm.GetNode("AcquisitionMode");
 		if (!IsAvailable(acq_mode) || !IsWritable(acq_mode))
 		{
-            RCLCPP_ERROR(rclcpp::get_logger("vision_acquisition_node"),
+            RCLCPP_ERROR(rclcpp::get_logger("acquisition"),
                     "Front camera is either unavailable and/or unwritable");
 			return;
 		}
@@ -41,7 +41,7 @@ void setupContinuousAcquisition(CameraPtr camera)
 		CEnumEntryPtr acq_mode_cont = acq_mode->GetEntryByName("Continuous");
 		if (!IsAvailable(acq_mode_cont) || !IsReadable(acq_mode_cont))
 		{
-            RCLCPP_ERROR(rclcpp::get_logger("vision_acquisition_node"),
+            RCLCPP_ERROR(rclcpp::get_logger("acquisition"),
                     "Front camera cannot be set to continuous.");
 			return;
 		}
@@ -113,19 +113,19 @@ void setupFramerate(CameraPtr camera, float framerate)
 	}
 	catch (Spinnaker::Exception &e)
 	{
-        RCLCPP_ERROR(rclcpp::get_logger("vision_acquisition_node"), "Error: %s", e.what());
+        RCLCPP_ERROR(rclcpp::get_logger("acquisition"), "Error: %s", e.what());
 	}
 }
 
 void runCamera(CameraPtr camera, std::string channel)
 {
-    auto nh = rclcpp::Node::make_shared("vision_acquisition_node");
+    auto nh = rclcpp::Node::make_shared("acquisition");
 	image_transport::ImageTransport it(nh);
 	image_transport::Publisher pub = it.advertise(channel, 1);
 
 	// Begin acquisition for camera.
 	camera->BeginAcquisition();
-	RCLCPP_INFO(rclcpp::get_logger("vision_acquisition_node"),
+	RCLCPP_INFO(rclcpp::get_logger("acquisition"),
             "Beginning acquisition for %s channel.", channel.c_str());
 
 	// Setup FPS logger.
@@ -143,7 +143,7 @@ void runCamera(CameraPtr camera, std::string channel)
 			// Ensure image completion.
 			if (img_ptr->IsIncomplete())
 			{
-	            RCLCPP_ERROR(rclcpp::get_logger("vision_acquisition_node"),
+	            RCLCPP_ERROR(rclcpp::get_logger("acquisition"),
                         "Incomplete image for %s channel.", channel.c_str());
 			}
 			else
@@ -189,7 +189,7 @@ void runCamera(CameraPtr camera, std::string channel)
 		}
 		catch (Spinnaker::Exception &e)
 		{
-            RCLCPP_ERROR(rclcpp::get_logger("vision_acquisition_node"),
+            RCLCPP_ERROR(rclcpp::get_logger("acquisition"),
                     "Error: %s", e.what());
 		}
 	}
