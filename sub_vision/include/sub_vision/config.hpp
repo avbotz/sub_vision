@@ -35,6 +35,8 @@ const bool FAST_LOG = false;
 const bool FILTER_ON = true;
 const bool SIM_FILTER_FRONT = true;
 const bool SIM_FILTER_DOWN = false;
+const bool SHOW_ACQUISITION_FPS = true;
+
 /*
 const float HFOV = 83;
 const float VFOV = 90;

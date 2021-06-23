@@ -185,7 +185,9 @@ void runCamera(CameraPtr camera, std::string channel)
 			float dt = (temp-tracker).nanoseconds() / 1e9;
 			float fps = 1./dt;
 			tracker = nh->now();
-//			ROS_INFO("FPS for %s: %f", channel.c_str(), fps);
+			
+			if (SHOW_ACQUISITION_FPS)
+				std::cout << "FPS for " << channel << ": " << fps << std::endl;
 		}
 		catch (Spinnaker::Exception &e)
 		{
